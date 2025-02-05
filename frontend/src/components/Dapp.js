@@ -204,17 +204,23 @@ export class Dapp extends React.Component {
   }
 
   _initialize(userAddress) {
-    this.setState({
-      selectedAddress: userAddress,
-    });
-
-    this._initializeEthers();
-    this._getTokenData();
-    this._startPollingData();
-    this._checkIfAdmin(userAddress);
-    this._getCodinomeUser(userAddress);
-    this._getUsersWithBalances();
-    this._updateVotingStatus();
+    // Verificar se o endereço não é nulo, indefinido e se é um endereço válido
+    if (userAddress && ethers.utils.isAddress(userAddress)) {
+      this.setState({
+        selectedAddress: userAddress,
+      });
+  
+      // Chamadas para outras funções após verificar o endereço
+      this._initializeEthers();
+      this._getTokenData();
+      this._startPollingData();
+      this._checkIfAdmin(userAddress);
+      this._getCodinomeUser(userAddress);
+      this._getUsersWithBalances();
+      this._updateVotingStatus();
+    } else {
+      console.error("Endereço inválido fornecido");
+    }
   }
 
   async _initializeEthers() {
@@ -252,9 +258,9 @@ export class Dapp extends React.Component {
     const usersWithBalances = codinomes
     .map((codinome, index) => ({
       codinome,
-      balance: balances[index].toString(),
+      balance: ethers.utils.formatEther(balances[index]),
     }))
-    .filter(user => user.balance !== '0');
+    .filter(user => user.balance !== '0.0');
     
     usersWithBalances.sort((a, b) => {
       return parseInt(b.balance) - parseInt(a.balance); 
@@ -288,9 +294,17 @@ export class Dapp extends React.Component {
   }
 
   async _updateBalance() {
-    const balance = await this._token.balanceOf(this.state.selectedAddress);
-    this.setState({ balance });
-    this._getUsersWithBalances();
+    const { selectedAddress } = this.state;
+  
+    if (selectedAddress && ethers.utils.isAddress(selectedAddress)) {
+      try {
+        const balance = await this._token.balanceOf(selectedAddress);
+        this.setState({ balance });
+        this._getUsersWithBalances(); 
+      } catch (error) {
+        console.error("Erro ao obter o saldo para o endereço:", selectedAddress, error);
+      }
+    }
   }
 
   async _issueTokens(codinome, amount) {

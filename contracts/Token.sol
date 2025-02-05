@@ -87,25 +87,22 @@ contract Token is ERC20, AccessControl {
     }
 
     function vote(string memory codinome, uint256 amount) openVoting() public onlyRole(USER_ROLE) {
-        // Verifica se a quantidade de tokens está dentro do limite
         require(amount <= 2 * (10 ** 18), 'Valor acima do montante de saTurings permitido');
         
-        // Impede o autovoto
         address addrVoto = users[codinome].addr;
         require(msg.sender != addrVoto, 'Nao e possivel votar em si mesmo');
         
-        // Verifica se o usuário já votou no destinatário
         string memory codinomeUser = getCodinomeUser(msg.sender);
         for (uint i = 0; i < users[codinomeUser].votados.length; i++) {
             require(users[codinomeUser].votados[i] != addrVoto, 'Usuario ja votado');
         }
 
-        // Registra o voto e recompensa
         users[codinomeUser].votados.push(addrVoto);
-        _mint(addrVoto, amount);            // Mint de tokens para quem foi votado
-        _mint(msg.sender, 2 * (10 ** 17));  // Mint de tokens como recompensa
+        _mint(addrVoto, amount);            
+        
+        require(address(this).balance >= 2 * (10 ** 17), "Saldo insuficiente no contrato");
+        payable(msg.sender).transfer(2 * (10 ** 17));
 
-        // Emite o evento de votação
         emit Voted(msg.sender, addrVoto, amount);
     }
 
