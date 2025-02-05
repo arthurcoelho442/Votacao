@@ -142,9 +142,9 @@ contract Token is ERC20, AccessControl {
 
         codinomes[0] = "professora";
         balances[0]  = balanceOf(users["professora"].addr);
-        for (uint i = 0; i < 18; i++) {
-            codinomes[i+1] = string(abi.encodePacked("nome", (i + 1).toString()));
-            balances[i+1]  = balanceOf(users[codinomes[i]].addr);
+        for (uint i = 1; i < 19; i++) {
+            codinomes[i] = string(abi.encodePacked("nome", (i).toString()));
+            balances[i]  = balanceOf(users[codinomes[i]].addr);
         }
         
         return (codinomes, balances);
