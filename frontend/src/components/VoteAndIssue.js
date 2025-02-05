@@ -101,7 +101,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             />
           </div>
           <div className="form-group d-flex mt-3">
-            <button className="btn btn-primary mr-3" onClick={handleVote}>
+            <button className="btn btn-primary" style={{ marginRight: "10px" }} onClick={handleVote}>
               Votar
             </button>
             <button className="btn btn-success" onClick={handleIssueTokens}>
