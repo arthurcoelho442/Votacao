@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.4.1",
+    "autoprefixer": "^10.4.20",
+    "bootstrap": "^5.3.3",
     "ethers": "^5.4.7",
     "font-awesome": "^4.7.0",
     "react": "^18.2.0",

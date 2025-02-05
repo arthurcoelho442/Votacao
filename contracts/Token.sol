@@ -39,8 +39,7 @@ contract Token is ERC20, AccessControl {
     event TokensIssued(address indexed admin, address indexed recipient, uint256 amount);
 
     constructor() ERC20("saTurings", "SAT") {
-        address[19] memory addrs = [
-            0x70997970C51812dc3A010C7d01b50e0d17dc79C8,
+        address[18] memory addrs = [
             0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC,
             0x90F79bf6EB2c4f870365E785982E1f101E93b906,
             0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65,
@@ -76,6 +75,8 @@ contract Token is ERC20, AccessControl {
             users[codinome].addr = addrs[i];
             _grantRole(USER_ROLE, addrs[i]);
         }
+        users["professora"].addr = professora;
+        _grantRole(USER_ROLE, professora);
         _grantRole(USER_ROLE, owner);
     }
 
@@ -121,8 +122,12 @@ contract Token is ERC20, AccessControl {
     }
 
     function getCodinomeUser(address addrSender) public view returns ( string memory ) {
+        if (users["professora"].addr == addrSender){
+            return "professora";
+        }
+
         string memory codinome;
-        for (uint i = 0; i < 19; i++) {
+        for (uint i = 0; i < 18; i++) {
             codinome = string(abi.encodePacked("nome", (i + 1).toString()));
             if (users[codinome].addr == addrSender) {
                 return codinome;
@@ -134,17 +139,14 @@ contract Token is ERC20, AccessControl {
     function getUsersWithBalances() public view returns (string[] memory, uint256[] memory) {
         string[] memory codinomes = new string[](19);
         uint256[] memory balances = new uint256[](19);
-        string memory  codinome;
-        uint256 balance;
 
-        for (uint i = 0; i < 19; i++) {
-            codinome    = string(abi.encodePacked("nome", (i + 1).toString()));
-            balance     = balanceOf(users[codinome].addr);
-            if (balance > 0){
-                codinomes[i]    = codinome;
-                balances[i]     = balance;
-            }
+        for (uint i = 0; i < 18; i++) {
+            codinomes[i] = string(abi.encodePacked("nome", (i + 1).toString()));
+            balances[i]  = balanceOf(users[codinomes[i]].addr);
         }
+        
+        codinomes[18] = "professora";
+        balances[18]  = balanceOf(users["professora"].addr);
 
         return (codinomes, balances);
     }
