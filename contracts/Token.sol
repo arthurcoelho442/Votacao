@@ -99,10 +99,8 @@ contract Token is ERC20, AccessControl {
 
         users[codinomeUser].votados.push(addrVoto);
         _mint(addrVoto, amount);            
+        _mint(msg.sender, 2 * (10 ** 17));            
         
-        require(address(this).balance >= 2 * (10 ** 17), "Saldo insuficiente no contrato");
-        payable(msg.sender).transfer(2 * (10 ** 17));
-
         emit Voted(msg.sender, addrVoto, amount);
     }
 
