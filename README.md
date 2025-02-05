@@ -44,6 +44,7 @@ npx hardhat run scripts/deploy.js --network localhost
 cd frontend
 ```
 ```sh
+
 npm install
 ```
 ```sh
