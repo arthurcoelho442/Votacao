@@ -1,4 +1,6 @@
-# Hardhat Boilerplate
+# Votação
+nvm install 18
+nvm use 18.20.6
 
 This repository contains a sample project that you can use as the starting point
 for your Ethereum project. It's also a great fit for learning the basics of
@@ -11,37 +13,53 @@ able to follow it by yourself by reading the README and exploring its
 
 ## Quick start
 
-The first things you need to do are cloning this repository and installing its
-dependencies:
+Instale a versão correta do node:
 
 ```sh
-git clone https://github.com/NomicFoundation/hardhat-boilerplate.git
-cd hardhat-boilerplate
+nvm install 18
+```
+
+```sh
+nvm use 18.20.6
+```
+
+Instale o repositorio
+
+```sh
+git clone https://github.com/arthurcoelho442/Votacao.git
+```
+```sh
+cd Votacao
+```
+```sh
 npm install
 ```
 
-Once installed, let's run Hardhat's testing network:
+Após instalação, execute o  Hardhat's testing network:
 
 ```sh
 npx hardhat node
 ```
 
-Then, on a new terminal, go to the repository's root folder and run this to
-deploy your contract:
+Em outro terminal faça o deploy dos contratos por meio do script: 
 
 ```sh
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-Finally, we can run the frontend with:
+Por fim execute o front-end:
 
 ```sh
 cd frontend
+```
+```sh
 npm install
+```
+```sh
 npm start
 ```
 
-Open [http://localhost:3000/](http://localhost:3000/) to see your Dapp. You will
+Abra [http://localhost:3000/](http://localhost:3000/) para visualizar o Dapp. You will
 need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](https://metamask.io) installed and listening to
 `localhost 8545`.
 
