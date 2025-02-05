@@ -8,7 +8,7 @@ import { Loading } from "./Loading";
 import { VoteAndIssue } from "./VoteAndIssue";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
-import { NoTokensMessage, NoTokensMessageAdmin } from "./NoTokensMessage";
+import { NoTokensMessage } from "./NoTokensMessage";
 import { Tabela } from "./Tabela";
 
 const HARDHAT_NETWORK_ID = '31337';
@@ -22,6 +22,7 @@ export class Dapp extends React.Component {
       tokenData: undefined,
       selectedAddress: undefined,
       balance: undefined,
+      balance_token: undefined,
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
@@ -51,7 +52,7 @@ export class Dapp extends React.Component {
       );
     }
 
-    if (!this.state.tokenData || !this.state.balance) {
+    if (!this.state.tokenData || !this.state.balance_token) {
       return <Loading />;
     }
 
@@ -71,7 +72,7 @@ export class Dapp extends React.Component {
               )}
               , você tem{" "}
               <b>
-                {ethers.utils.formatEther(this.state.balance)} Turings
+                {ethers.utils.formatEther(this.state.balance_token)} Turings
               </b>
               .
             </p>
@@ -103,20 +104,20 @@ export class Dapp extends React.Component {
 
         <div className="row">
           <div className="col-md-6">
-            {this.state.balance.eq(0) && (
+            {ethers.BigNumber.from(this.state.balance).eq(0) && (
               this.state.isAdmin ? (
-                <NoTokensMessageAdmin selectedAddress={this.state.selectedAddress} />
+                <NoTokensMessage selectedAddress={this.state.selectedAddress} />
               ) : (
                 <NoTokensMessage selectedAddress={this.state.selectedAddress} />
               )
             )}
 
-            {this.state.balance && (
+            {ethers.BigNumber.from(this.state.balance) && (
               <VoteAndIssue
                 vote={(codinome, amount) => this._vote(codinome, amount)}
                 issueTokens={(codinome, amount) => this._issueTokens(codinome, amount)}
                 isAdmin={this.state.isAdmin}
-                balance={this.state.balance}
+                balance={ethers.BigNumber.from(this.state.balance)}
                 users={this.state.users}
               />
             )}
@@ -298,8 +299,13 @@ export class Dapp extends React.Component {
   
     if (selectedAddress && ethers.utils.isAddress(selectedAddress)) {
       try {
-        const balance = await this._token.balanceOf(selectedAddress);
-        this.setState({ balance });
+        const balance       = await this._provider.getBalance(selectedAddress);
+        const balance_token = await this._token.balanceOf(selectedAddress);
+        this.setState({
+          balance: balance.toString(),
+          balance_token,
+        });
+
         this._getUsersWithBalances(); 
       } catch (error) {
         console.error("Erro ao obter o saldo para o endereço:", selectedAddress, error);
