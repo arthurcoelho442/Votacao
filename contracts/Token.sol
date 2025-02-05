@@ -70,12 +70,12 @@ contract Token is ERC20, AccessControl {
         _grantRole(ADMIN_ROLE, professora);
 
         // USERS
+        users["professora"].addr = professora;
         for(uint i = 0; i < addrs.length; i++){
             codinome = string(abi.encodePacked("nome", (i + 1).toString()));
             users[codinome].addr = addrs[i];
             _grantRole(USER_ROLE, addrs[i]);
         }
-        users["professora"].addr = professora;
         _grantRole(USER_ROLE, professora);
         _grantRole(USER_ROLE, owner);
     }
@@ -140,14 +140,13 @@ contract Token is ERC20, AccessControl {
         string[] memory codinomes = new string[](19);
         uint256[] memory balances = new uint256[](19);
 
+        codinomes[0] = "professora";
+        balances[0]  = balanceOf(users["professora"].addr);
         for (uint i = 0; i < 18; i++) {
-            codinomes[i] = string(abi.encodePacked("nome", (i + 1).toString()));
-            balances[i]  = balanceOf(users[codinomes[i]].addr);
+            codinomes[i+1] = string(abi.encodePacked("nome", (i + 1).toString()));
+            balances[i+1]  = balanceOf(users[codinomes[i]].addr);
         }
         
-        codinomes[18] = "professora";
-        balances[18]  = balanceOf(users["professora"].addr);
-
         return (codinomes, balances);
     }
 }

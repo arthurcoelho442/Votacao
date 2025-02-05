@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function VoteAndIssue({ vote, issueTokens, isAdmin, balance }) {
+export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
   const [codinome, setCodinome] = useState("");
   const [amount, setAmount] = useState("");
 
@@ -26,14 +26,20 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance }) {
         <form>
           <div className="form-group">
             <label>Codinome</label>
-            <input
+            <select
               className="form-control"
-              type="text"
               name="codinome"
               value={codinome}
               onChange={(e) => setCodinome(e.target.value)}
               required
-            />
+            >
+              <option value="">Selecione um codinome</option>
+              {users.map((user, index) => (
+                <option key={index} value={user}>
+                  {user}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label>Quantidade de saTurings</label>
@@ -66,14 +72,20 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance }) {
         <form>
           <div className="form-group">
             <label>Codinome</label>
-            <input
+            <select
               className="form-control"
-              type="text"
               name="codinome"
               value={codinome}
               onChange={(e) => setCodinome(e.target.value)}
               required
-            />
+            >
+              <option value="">Selecione um codinome</option>
+              {users.map((user, index) => (
+                <option key={index} value={user}>
+                  {user}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label>Quantidade de saTurings</label>
@@ -109,14 +121,20 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance }) {
         <form>
           <div className="form-group">
             <label>Codinome</label>
-            <input
+            <select
               className="form-control"
-              type="text"
               name="codinome"
               value={codinome}
               onChange={(e) => setCodinome(e.target.value)}
               required
-            />
+            >
+              <option value="">Selecione um codinome</option>
+              {users.map((user, index) => (
+                <option key={index} value={user}>
+                  {user}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label>Quantidade de saTurings</label>

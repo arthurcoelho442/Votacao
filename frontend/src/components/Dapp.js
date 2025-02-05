@@ -27,6 +27,7 @@ export class Dapp extends React.Component {
       networkError: undefined,
       isAdmin: false,
       usersWithBalances: [],
+      users: [],
       votingStatus: 0,
       eError: undefined,
       codinome: undefined,
@@ -116,6 +117,7 @@ export class Dapp extends React.Component {
                 issueTokens={(codinome, amount) => this._issueTokens(codinome, amount)}
                 isAdmin={this.state.isAdmin}
                 balance={this.state.balance}
+                users={this.state.users}
               />
             )}
           </div>
@@ -210,8 +212,8 @@ export class Dapp extends React.Component {
     this._getTokenData();
     this._startPollingData();
     this._checkIfAdmin(userAddress);
-    this._getUsersWithBalances();
     this._getCodinomeUser(userAddress);
+    this._getUsersWithBalances();
     this._updateVotingStatus();
   }
 
@@ -246,18 +248,27 @@ export class Dapp extends React.Component {
 
   async _getUsersWithBalances() {
     const [codinomes, balances] = await this._token.getUsersWithBalances();
+    
     const usersWithBalances = codinomes
-      .map((codinome, index) => ({
-        codinome,
-        balance: balances[index].toString(),
-      }))
-      .filter(user => user.balance !== '0');
-  
+    .map((codinome, index) => ({
+      codinome,
+      balance: balances[index].toString(),
+    }))
+    .filter(user => user.balance !== '0');
+    
     usersWithBalances.sort((a, b) => {
       return parseInt(b.balance) - parseInt(a.balance); 
     });
-  
     this.setState({ usersWithBalances });
+    
+    if(this.state.isAdmin){
+      const users = codinomes;
+      this.setState({ users });
+    } else {
+      const  users = codinomes
+      .filter(codinome => codinome !== this.state.codinome);
+      this.setState({ users });
+    }
   }
 
   async _checkIfAdmin(userAddress) {
