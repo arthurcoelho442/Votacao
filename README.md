@@ -1,19 +1,10 @@
-# Votação
-nvm install 18
-nvm use 18.20.6
+# Votacao
 
-This repository contains a sample project that you can use as the starting point
-for your Ethereum project. It's also a great fit for learning the basics of
-smart contract development.
+Este repositório contém um projeto baseado no repositório [Hardhat Beginners Tutorial](https://hardhat.org/tutorial) da Hardhat, com a implementação de um DApp capaz de executar uma votação para os trabalhos da disciplina de Blockchain da UFES.
 
-This project is intended to be used with the
-[Hardhat Beginners Tutorial](https://hardhat.org/tutorial), but you should be
-able to follow it by yourself by reading the README and exploring its
-`contracts`, `tests`, `scripts` and `frontend` directories.
+## Início Rápido
 
-## Quick start
-
-Instale a versão correta do node:
+### Instalação da versão correta do Node.js:
 
 ```sh
 nvm install 18
@@ -23,7 +14,7 @@ nvm install 18
 nvm use 18.20.6
 ```
 
-Instale o repositorio
+### Clonando o repositório
 
 ```sh
 git clone https://github.com/arthurcoelho442/Votacao.git
@@ -35,19 +26,19 @@ cd Votacao
 npm install
 ```
 
-Após instalação, execute o  Hardhat's testing network:
+### Executando a rede de testes do Hardhat
 
 ```sh
 npx hardhat node
 ```
 
-Em outro terminal faça o deploy dos contratos por meio do script: 
+Em outro terminal, faça o deploy dos contratos utilizando o script:
 
 ```sh
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
-Por fim execute o front-end:
+### Executando o front-end
 
 ```sh
 cd frontend
@@ -59,50 +50,32 @@ npm install
 npm start
 ```
 
-Abra [http://localhost:3000/](http://localhost:3000/) para visualizar o Dapp. You will
-need to have [Coinbase Wallet](https://www.coinbase.com/wallet) or [Metamask](https://metamask.io) installed and listening to
-`localhost 8545`.
+Abra [http://localhost:3000/](http://localhost:3000/) para visualizar o DApp. 
+Você precisará ter o [Coinbase Wallet](https://www.coinbase.com/wallet) ou [Metamask](https://metamask.io) instalado e conectado à rede `localhost:8545`.
 
-## User Guide
+## Conexão com a rede Hardhat via MetaMask
 
-You can find detailed instructions on using this repository and many tips in [its documentation](https://hardhat.org/tutorial).
+Instale a [extensão MetaMask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en), recomendado utilizar o navegador Chrome. Para configuração da conta MetaMask, é necessário criar uma nova carteira e fazer backup da frase de segurança.  
 
-- [Writing and compiling contracts](https://hardhat.org/tutorial/writing-and-compiling-contracts/)
-- [Setting up the environment](https://hardhat.org/tutorial/setting-up-the-environment/)
-- [Testing Contracts](https://hardhat.org/tutorial/testing-contracts/)
-- [Setting up your wallet](https://hardhat.org/tutorial/boilerplate-project#how-to-use-it)
-- [Hardhat's full documentation](https://hardhat.org/docs/)
+Após a criação da carteira MetaMask, basta clicar no ícone da MetaMask, onde é possível observar que a conexão padrão está configurada para a rede Mainnet Ethereum. Logo, é necessário alterar para conectar à rede local de Hardhat no MetaMask.  
 
-For a complete introduction to Hardhat, refer to [this guide](https://hardhat.org/getting-started/#overview).
+1. Certifique-se de configurar suas redes de teste para serem visíveis. Navegue até as configurações da MetaMask, vá até configurações avançadas e defina a rede de teste a ser conectada.  
 
-## What's Included?
+2. Vá até suas configurações de rede e clique em **Adicionar nova rede**.  
 
-This repository uses our recommended hardhat setup, by using our [`@nomicfoundation/hardhat-toolbox`](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-toolbox). When you use this plugin, you'll be able to:
+  <div style="text-align: center;">
+    <img src="src/add-network.png" width="35%" />
+  </div>  
 
-- Deploy and interact with your contracts using [ethers.js](https://docs.ethers.io/v5/) and the [`hardhat-ethers`](https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-ethers) plugin.
-- Test your contracts with [Mocha](https://mochajs.org/), [Chai](https://chaijs.com/) and our own [Hardhat Chai Matchers](https://hardhat.org/hardhat-chai-matchers) plugin.
-- Interact with Hardhat Network with our [Hardhat Network Helpers](https://hardhat.org/hardhat-network-helpers).
-- Verify the source code of your contracts with the [hardhat-etherscan](https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-etherscan) plugin.
-- Get metrics on the gas used by your contracts with the [hardhat-gas-reporter](https://github.com/cgewecke/hardhat-gas-reporter) plugin.
-- Measure your tests coverage with [solidity-coverage](https://github.com/sc-forks/solidity-coverage).
+3. Preencha as informações necessárias e salve.  
 
-This project also includes [a sample frontend/Dapp](./frontend), which uses [Create React App](https://github.com/facebook/create-react-app).
+  <div style="text-align: center;">
+    <img src="src/info-network.png" width="35%" />
+  </div>
 
-## Troubleshooting
+## Solução de Problemas
 
-- `Invalid nonce` errors: if you are seeing this error on the `npx hardhat node`
-  console, try resetting your Metamask account. This will reset the account's
-  transaction history and also the nonce. Open Metamask, click on your account
-  followed by `Settings > Advanced > Clear activity tab data`.
-
-## Setting up your editor
-
-[Hardhat for Visual Studio Code](https://hardhat.org/hardhat-vscode) is the official Hardhat extension that adds advanced support for Solidity to VSCode. If you use Visual Studio Code, give it a try!
-
-## Getting help and updates
-
-If you need help with this project, or with Hardhat in general, please read [this guide](https://hardhat.org/hardhat-runner/docs/guides/getting-help) to learn where and how to get it.
-
-For the latest news about Hardhat, [follow us on Twitter](https://twitter.com/HardhatHQ), and don't forget to star [our GitHub repository](https://github.com/NomicFoundation/hardhat)!
-
-**Happy _building_!**
+- **Erros de `Invalid nonce`**: Se você está vendo esse erro no console do `npx hardhat node`, tente redefinir sua conta no Metamask. Isso irá limpar o histórico de transações e o nonce da conta. Para isso:
+  - Abra o Metamask
+  - Clique na sua conta
+  - Acesse `Configurações > Avançado > Limpar dados da aba de atividades`
