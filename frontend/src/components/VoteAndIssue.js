@@ -19,7 +19,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
   };
 
   // Se for admin e não houver saldo, só deve aparecer a opção para emitir tokens
-  if (isAdmin && balance.eq(0)) {
+  if (isAdmin)  {
     return (
       <div>
         <h4>Emitir Tokens</h4>
@@ -42,7 +42,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             </select>
           </div>
           <div className="form-group">
-            <label>Quantidade de saTurings</label>
+            <label>Quantidade de Turings</label>
             <input
               className="form-control"
               type="number"
@@ -55,55 +55,6 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             />
           </div>
           <div className="form-group d-flex mt-3">
-            <button className="btn btn-success" onClick={handleIssueTokens}>
-              Emitir Tokens
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
-  // Se for admin e tiver saldo, exibe a opção de votar e emitir tokens
-  if (isAdmin && balance.gt(0)) {
-    return (
-      <div>
-        <h4>Votar ou Emitir Tokens</h4>
-        <form>
-          <div className="form-group">
-            <label>Codinome</label>
-            <select
-              className="form-control"
-              name="codinome"
-              value={codinome}
-              onChange={(e) => setCodinome(e.target.value)}
-              required
-            >
-              <option value="">Selecione um codinome</option>
-              {users.map((user, index) => (
-                <option key={index} value={user}>
-                  {user}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Quantidade de saTurings</label>
-            <input
-              className="form-control"
-              type="number"
-              step="1"
-              name="amount"
-              placeholder="1"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group d-flex mt-3">
-            <button className="btn btn-primary" style={{ marginRight: "10px" }} onClick={handleVote}>
-              Votar
-            </button>
             <button className="btn btn-success" onClick={handleIssueTokens}>
               Emitir Tokens
             </button>
@@ -137,7 +88,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             </select>
           </div>
           <div className="form-group">
-            <label>Quantidade de saTurings</label>
+            <label>Quantidade de Turings</label>
             <input
               className="form-control"
               type="number"

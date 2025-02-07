@@ -11,7 +11,7 @@ export function Tabela({ usersWithBalances }) {
           <thead className="table-warning">
             <tr>
               <th className="text-center">Codinome</th>
-              <th className="text-center">Qtd. saTurings</th>
+              <th className="text-center">Qtd. Turings</th>
             </tr>
           </thead>
           <tbody>

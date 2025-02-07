@@ -14,7 +14,7 @@ contract Token is ERC20, AccessControl {
     using Strings for uint256;
     struct User {
         address addr;
-        address[] votados;
+        mapping(string => address) votados;
     }
 
     enum Voting {
@@ -28,6 +28,27 @@ contract Token is ERC20, AccessControl {
     
     bytes32 public constant ADMIN_ROLE  = keccak256("ADMIN_ROLE");
     bytes32 public constant USER_ROLE   = keccak256("USER_ROLE");
+
+    string[18] nomes = [
+            'nome1',
+            'nome2',
+            'nome3',
+            'nome4',
+            'nome5',
+            'nome6',
+            'nome7',
+            'nome8',
+            'nome9',
+            'nome10',
+            'nome11',
+            'nome12',
+            'nome13',
+            'nome14',
+            'nome15',
+            'nome16',
+            'nome17',
+            'nome18'
+        ];
 
     mapping(string => User) public users;
     modifier openVoting() {
@@ -60,7 +81,6 @@ contract Token is ERC20, AccessControl {
             0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199
         ];
 
-        string memory codinome;
         owner = msg.sender;
         votingStatus = Voting.ON;
 
@@ -70,14 +90,10 @@ contract Token is ERC20, AccessControl {
         _grantRole(ADMIN_ROLE, professora);
 
         // USERS
-        users["professora"].addr = professora;
         for(uint i = 0; i < addrs.length; i++){
-            codinome = string(abi.encodePacked("nome", (i + 1).toString()));
-            users[codinome].addr = addrs[i];
+            users[nomes[i]].addr = addrs[i];
             _grantRole(USER_ROLE, addrs[i]);
         }
-        _grantRole(USER_ROLE, professora);
-        _grantRole(USER_ROLE, owner);
     }
 
     function issueToken(string memory codinome, uint256 amount) public onlyRole(ADMIN_ROLE) {
@@ -89,19 +105,17 @@ contract Token is ERC20, AccessControl {
     function vote(string memory codinome, uint256 amount) openVoting() public onlyRole(USER_ROLE) {
         require(amount <= 2 * (10 ** 18), 'Valor acima do montante de saTurings permitido');
         
-        address addrVoto = users[codinome].addr;
-        require(msg.sender != addrVoto, 'Nao e possivel votar em si mesmo');
+        require(msg.sender != users[codinome].addr, 'Nao e possivel votar em si mesmo');
         
         string memory codinomeUser = getCodinomeUser(msg.sender);
-        for (uint i = 0; i < users[codinomeUser].votados.length; i++) {
-            require(users[codinomeUser].votados[i] != addrVoto, 'Usuario ja votado');
-        }
+        require(users[codinomeUser].votados[codinome] == address(0), 'Usuario ja votado');
 
-        users[codinomeUser].votados.push(addrVoto);
-        _mint(addrVoto, amount);            
+        users[codinomeUser].votados[codinome] = users[codinome].addr;
+
+        _mint(users[codinome].addr, amount);            
         _mint(msg.sender, 2 * (10 ** 17));            
         
-        emit Voted(msg.sender, addrVoto, amount);
+        emit Voted(msg.sender, users[codinome].addr, amount);
     }
 
     function votingOn() public onlyRole(ADMIN_ROLE) {
@@ -117,31 +131,26 @@ contract Token is ERC20, AccessControl {
     }
 
     function getCodinomeUser(address addrSender) public view returns ( string memory ) {
-        if (users["professora"].addr == addrSender){
+        if (professora == addrSender){
             return "professora";
         }
 
-        string memory codinome;
-        for (uint i = 0; i < 18; i++) {
-            codinome = string(abi.encodePacked("nome", (i + 1).toString()));
-            if (users[codinome].addr == addrSender) {
-                return codinome;
+        for (uint i = 0; i < nomes.length; i++) {
+            if (users[nomes[i]].addr == addrSender) {
+                return nomes[i];
             }
         }
         revert("Usuario nao encontrado");
     }
 
     function getUsersWithBalances() public view returns (string[] memory, uint256[] memory) {
-        string[] memory codinomes = new string[](19);
-        uint256[] memory balances = new uint256[](19);
+        string[] memory codinomes = new string[](nomes.length);
+        uint256[] memory balances = new uint256[](nomes.length);
 
-        codinomes[0] = "professora";
-        balances[0]  = balanceOf(users["professora"].addr);
-        for (uint i = 1; i < 19; i++) {
-            codinomes[i] = string(abi.encodePacked("nome", (i).toString()));
-            balances[i]  = balanceOf(users[codinomes[i]].addr);
+        for (uint i = 0; i < nomes.length; i++) {
+            codinomes[i] = nomes[i];
+            balances[i]  = balanceOf(users[nomes[i]].addr);
         }
-        
         return (codinomes, balances);
     }
 }
