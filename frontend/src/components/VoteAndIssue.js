@@ -45,7 +45,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             <label>Quantidade de Turings</label>
             <input
               className="form-control"
-              type="number"
+              type="float"
               step="1"
               name="amount"
               placeholder="1"
@@ -91,7 +91,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
             <label>Quantidade de Turings</label>
             <input
               className="form-control"
-              type="number"
+              type="float"
               step="1"
               name="amount"
               placeholder="1"

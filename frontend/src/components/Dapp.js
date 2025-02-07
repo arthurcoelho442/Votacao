@@ -324,7 +324,6 @@ export class Dapp extends React.Component {
       if (receipt.status === 0) {
         throw new Error("Transaction failed");
       }
-      await this._updateBalance();
     } catch (error) {
       if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
         return;
@@ -361,7 +360,6 @@ export class Dapp extends React.Component {
         throw new Error("Transaction failed");
       }
 
-      await this._updateBalance();
     } catch (error) {
       if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
         return;
