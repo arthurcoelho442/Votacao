@@ -48,7 +48,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
               type="float"
               step="1"
               name="amount"
-              placeholder="1"
+              placeholder="0.1"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
@@ -94,7 +94,7 @@ export function VoteAndIssue({ vote, issueTokens, isAdmin, balance, users }) {
               type="float"
               step="1"
               name="amount"
-              placeholder="1"
+              placeholder="0.1"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required

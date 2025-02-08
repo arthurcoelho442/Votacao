@@ -350,8 +350,9 @@ export class Dapp extends React.Component {
         console.error("Codinome inválido");
         return;
       }
-
-      const tx = await this._token.vote(codinome, amount);
+      
+      const value = ethers.utils.parseUnits(amount.toString(), 18);
+      const tx = await this._token.vote(codinome, value);
       this.setState({ txBeingSent: tx.hash });
 
       const receipt = await tx.wait();
