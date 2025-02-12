@@ -103,6 +103,7 @@ contract Token is ERC20, AccessControl {
     }
 
     function vote(string memory codinome, uint256 amount) openVoting() public onlyRole(USER_ROLE) {
+        require(users[codinome].addr != address(0), 'Este usuario nao existe');     
         require(amount <= 2 * (10 ** 18), 'Valor acima do montante permitido');
         
         require(msg.sender != users[codinome].addr, 'Nao e possivel votar em si mesmo');

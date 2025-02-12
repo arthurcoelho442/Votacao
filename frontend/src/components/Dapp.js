@@ -318,7 +318,16 @@ export class Dapp extends React.Component {
       this._dismissTransactionError();
       this._dismissEError();
 
-      const tx = await this._token.issueToken(codinome, amount);
+      // Verifica se o valor possui mais de 18 dígitos decimais
+      const decimalPlaces = (amount.toString().split('.')[1] || '').length;
+      if (decimalPlaces > 18) {
+        this.setState({ eError: `O valor não pode ter mais de 18 dígitos decimais (Quantidade de digitos atual: ${decimalPlaces}).` });
+        return; 
+      }
+
+      const value = ethers.utils.parseUnits(amount.toString(), 18);
+
+      const tx = await this._token.issueToken(codinome, value);
       this.setState({ txBeingSent: tx.hash });
       const receipt = await tx.wait();
       if (receipt.status === 0) {
